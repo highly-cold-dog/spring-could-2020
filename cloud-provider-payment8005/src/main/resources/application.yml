@@ -1,0 +1,20 @@
+server:
+  port: 8005
+
+spring:
+  application:
+    name: consul-provider-paymen
+
+##consul的注册地址
+  cloud:
+    consul:
+      host: http://120.53.125.32
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        #配置健康检查，不配置页面会有报错
+        health-check-url: ${spring.cloud.consul.host}:8500
+        #服务停止时自动取消注册
+        deregister: true
+        #健康检查失败多长时间后，取消注册
+        health-check-critical-timeout: 10s

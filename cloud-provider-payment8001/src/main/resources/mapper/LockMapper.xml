@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.springcloud.dao.MysqlLockDao">
+
+    <resultMap id="MethodLock" type="com.sky.entyties.MethodLock" >
+        <result column="id" property="id" />
+        <result column="lock_key" property="lockKey" />
+        <result column="lock_timeout" property="lockTimeout" />
+        <result column="remarks" property="remarks" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`,
+        `lock_key`,
+        `lock_timeout`,
+        `remarks`,
+        `update_time`
+    </sql>
+
+    <insert id="insert" parameterType="java.util.Map" >
+        INSERT INTO methodLock (
+            `lock_key`,
+            `lock_timeout`,
+            `remarks`,
+            `update_time`
+        )
+        VALUES(
+                  #{methodLock.lockKey},
+                  #{methodLock.lockTimeout},
+                  #{methodLock.remarks},
+                  #{methodLock.updateTime}
+              )
+    </insert>
+
+
+
+    <update id="update" parameterType="java.util.Map" >
+        UPDATE methodLock
+        SET
+            lock_key = #{methodLock.lockKey},
+            lock_timeout = #{methodLock.lockTimeout},
+            remarks = #{methodLock.remarks},
+            update_time = #{methodLock.updateTime},
+            WHERE `id` = #{methodLock.id}
+    </update>
+
+
+    <select id="load" parameterType="java.util.Map" resultMap="MethodLock">
+        SELECT <include refid="Base_Column_List" />
+        FROM methodLock
+        WHERE `id` = #{id}
+    </select>
+
+    <!-- 获取分布式锁 -->
+    <select id="getLock" resultType="com.sky.entyties.MethodLock">
+        select
+            *
+        from
+            methodLock
+        where
+            lock_key = #{methodLock.lockKey}
+            for update
+    </select>
+
+
+</mapper>

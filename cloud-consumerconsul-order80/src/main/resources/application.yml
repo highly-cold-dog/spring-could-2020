@@ -1,0 +1,21 @@
+server:
+  port: 80
+
+
+spring:
+  application:
+    name: cloud-consumer-order
+
+    #consul注册中心地址
+  cloud:
+    consul:
+      host: http://120.53.125.32
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        #健康检查
+        health-check-url: ${spring.cloud.consul.host}:8500
+        #服务停止时取消注册
+        deregister: true
+        #健康检查失败多久后，取消注册
+        health-check-timeout: 10s

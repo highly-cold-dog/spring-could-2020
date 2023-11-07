@@ -1,0 +1,15 @@
+server:
+  port: 8006
+spring:
+  application:
+    name: cloud-provider-hystrix-payment
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      #local
+      #defaultZone: http://eureka7001.com:7001/eureka
+      #remot
+      defaultZone: http://120.53.125.32:7001/eureka
